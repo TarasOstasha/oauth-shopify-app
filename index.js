@@ -274,13 +274,13 @@ app.get("/api/products-count",  async (req, res) => {
     );
 
     const countData = await Product.count({ session });
-    res.status(200).send(countData);
+    res.status(200).send(countData); 
 });
 
 app.use(compression());
 app.use(serveStatic(resolve("app-front/dist")));
 
-// applyAuthMiddleware(app);
+// applyAuthMiddleware(app); // hello world
 
 
 app.use("/*", (req, res, next) => {
