@@ -1,0 +1,10 @@
+1. My start: heroku git: clone -a oauth-shopify-app
+
+2. Dashboard of project: https://dashboard.heroku.com/apps/oauth-shopify-app
+   Partners panel: https://partners.shopify.com/2462145/resources/get_started
+
+3. App: https://oauth-shopify-app.herokuapp.com/?host=dG9ueWpvc3Mtc3RvcmUubXlzaG9waWZ5LmNvbS9hZG1pbg&shop=tonyjoss-store.myshopify.com
+
+4. App in admin panel: https://tonyjoss-store.myshopify.com/admin/apps/oauth-node-26
+
+5. Node API Docs: https://github.com/Shopify/shopify-node-api/blob/HEAD/docs/getting_started.md#set-up-context
