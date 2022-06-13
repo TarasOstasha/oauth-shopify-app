@@ -268,7 +268,7 @@ app.get("/api/products-count",  async (req, res) => {
     // const session = await Shopify.Utils.loadCurrentSession(req, res, true);
     const shop = req.query.shop;
     const session = shops[shop];
-
+    console.log(Shopify.Context.API_VERSION);
     const { Product } = await import(
         `@shopify/shopify-api/dist/rest-resources/${Shopify.Context.API_VERSION}/index.js`
     );
