@@ -251,6 +251,7 @@ app.get("/api/products", async (req, res) => {
         const products = await client.get({
             path: 'products',
         });
+        console.log(products);
         // const { Product } = await import(
         //   `@shopify/shopify-api/dist/rest-resources/${Shopify.Context.API_VERSION}/index.js`
         // );
