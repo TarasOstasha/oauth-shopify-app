@@ -254,17 +254,16 @@ app.get("/admin/api/2022-04/products.json", async (req, res) => {
         // const products = await client.get({
         //     path: 'products',
         // });
-        console.log(products);
+
+        const test_session = await Shopify.Utils.loadCurrentSession(session.shop, session.accessToken);
+        const products = await Product.all({
+            session: test_session
+        });
         // const { Product } = await import(
         //   `@shopify/shopify-api/dist/rest-resources/${Shopify.Context.API_VERSION}/index.js`
         // );
         // const countData = await Product.count({ session });
         // res.status(200).send(countData);
-        import { Product } from '@shopify/shopify-api/dist/rest-resources/2022-04/index.js';
-        const test_session = await Shopify.Utils.loadCurrentSession(request, response);
-        const products = await Product.all({
-            session: test_session,
-        });
         res.status(200).send(products);
     } catch (error) {
         log('products error', error);
