@@ -41,7 +41,7 @@ const set = {
     API_KEY: SHOPIFY_API_KEY,
     API_SECRET_KEY: SHOPIFY_API_SECRET,
     API_VERSION: ApiVersion.April22,
-    SCOPES: SHOPIFY_API_SCOPES,
+    SCOPES: [write_products,read_products],//SHOPIFY_API_SCOPES,
     HOST_NAME: HOST,
     IS_EMBEDDED_APP: true,
     // This should be replaced with your preferred storage strategy
@@ -118,8 +118,8 @@ app.get("/auth/toplevel", (req, res) => {
     res.set("Content-Type", "text/html");
     res.send(
         topLevelAuthRedirect({
-            apiKey: Shopify.Context.SHOPIFY_API_KEY,//API_KEY,
-            hostName: Shopify.Context.HOST,//HOST_NAME,
+            apiKey: Shopify.Context.API_KEY,
+            hostName: Shopify.Context.HOST_NAME,
             host: req.query.host,
             query: req.query,
         })
@@ -253,7 +253,7 @@ app.get("/api/products", async (req, res) => {
         const products = await client.get({
             path: 'products',
         });
-       
+        console.log(products);
         // const { Product } = await import(
         //   `@shopify/shopify-api/dist/rest-resources/${Shopify.Context.API_VERSION}/index.js`
         // );
