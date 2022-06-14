@@ -118,8 +118,8 @@ app.get("/auth/toplevel", (req, res) => {
     res.set("Content-Type", "text/html");
     res.send(
         topLevelAuthRedirect({
-            apiKey: Shopify.Context.API_KEY,
-            hostName: Shopify.Context.HOST_NAME,
+            apiKey: Shopify.Context.SHOPIFY_API_KEY,//API_KEY,
+            hostName: Shopify.Context.HOST,//HOST_NAME,
             host: req.query.host,
             query: req.query,
         })
@@ -248,8 +248,7 @@ app.get("/api/products", async (req, res) => {
         const session = shops[shop];
         log('products session', session);
         // Create a new client for the specified shop.
-        //const client = new Shopify.Clients.Rest(session.shop, session.accessToken);
-        const client = new Shopify.Clients.Rest('session.shop', process.env.SHOPIFY_API_KEY);
+        const client = new Shopify.Clients.Rest(session.shop, session.accessToken);
         // Use `client.get` to request the specified Shopify REST API endpoint, in this case `products`.
         const products = await client.get({
             path: 'products',
