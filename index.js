@@ -240,8 +240,8 @@ app.use("/api/*", async (req, res, next) => {
     Other routes
 */
 import { Product } from '@shopify/shopify-api/dist/rest-resources/2022-04/index.js';
-//app.get("/api/products", async (req, res) => {
-app.get("/admin/api/2022-04/products.json", async (req, res) => {
+app.get("/api/products", async (req, res) => {
+//app.get("/admin/api/2022-04/products.json", async (req, res) => {
     try {
         log('req.query 2', req.query);
         const shop = req.query.shop;
