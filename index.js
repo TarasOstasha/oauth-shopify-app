@@ -239,7 +239,9 @@ app.use("/api/*", async (req, res, next) => {
 /*
     Other routes
 */
+
 app.get("/api/products", async (req, res) => {
+//app.get("/admin/api/2022-04/products.json", async (req, res) => {    
     try {
         log('req.query 2', req.query);
         const shop = req.query.shop;
@@ -251,6 +253,7 @@ app.get("/api/products", async (req, res) => {
         const products = await client.get({
             path: 'products',
         });
+        console.log(products);
         // const { Product } = await import(
         //   `@shopify/shopify-api/dist/rest-resources/${Shopify.Context.API_VERSION}/index.js`
         // );

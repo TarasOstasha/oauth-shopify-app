@@ -11,6 +11,9 @@
     </div>
     <div v-if="session.id" class="alert alert-success" role="alert">
       Session info:
+        <div>
+        aession: {{ session }}
+      </div>
       <div>
         accessToken: {{ session.accessToken }}
       </div>
