@@ -73,6 +73,10 @@ import axios from 'axios'
 import { useRoute } from "vue-router";
 import { useRouter } from "vue-router";
 
+import { config } from "@/config";
+const log = console.log;
+
+
 export default {
   components: {
     HelloWorld
@@ -97,46 +101,58 @@ export default {
         shop: null, // "tonyjoss-store.myshopify.com"
         state: null, // "608570500830120"
       },
-      shop: ''
+      shop: '',
       // userData: {},
       // appData: {}
+
     }
   },
+
   created() {
     // this.storeApp.init()
     // setInterval(() => {
     //   this.fetchSession();
     // }, 1000);
+    log(this.api())
   },
   mounted() {
     setTimeout(() => { this.saveShop() }, 300);
   },
   methods: {
+    api: () => {
+      return location.hostname == 'localhost'
+        ? 'https://oauth-shopify-app.herokuapp.com'
+        : ''
+    },
     saveShop() {
       const query = this.route.query;
       console.log(query)
 
       const shop = query.shop;
-      console.log(777, shop)
+      console.log(777, shop);
       // localStorage.setItem('shop', shop);
       this.shop = shop;
     },
     fetchSession() {
       // const shop = localStorage.getItem('shop');
       axios
-        .get(`/session-info?shop=${this.shop}`)
-        .then(answer => (this.session = answer.data.sessionSave));
+        .get(`${this.api()}/session-info?shop=${this.shop}`)
+        .then(answer => {
+          log(answer);
+          const session = answer.data.sessionSave;
+          if (session) this.session = session;
+        });
     },
     getProducts() {
       // const shop = localStorage.getItem('shop');
       axios
-        .get(`/api/products?shop=${this.shop}`)
+        .get(`${this.api()}/api/products?shop=${this.shop}`)
         .then(answer => (console.log(answer)));
     },
-        getProducts2() {
+    getProducts2() {
       // const shop = localStorage.getItem('shop');
       axios
-        .get(`/api/products-count?shop=${this.shop}`)
+        .get(`${this.api()}/api/products-count?shop=${this.shop}`)
         .then(answer => (console.log(answer)));
     }
   }
