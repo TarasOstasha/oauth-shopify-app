@@ -8,3 +8,13 @@
 4. App in admin panel: https://tonyjoss-store.myshopify.com/admin/apps/oauth-node-26
 
 5. Node API Docs: https://github.com/Shopify/shopify-node-api/blob/HEAD/docs/getting_started.md#set-up-context
+
+
+6. Discord Bot:
+
+Create app: https://discord.com/developers/applications/
+Guide n module: 
+https://discord.js.org/#/docs/discord.js/main/general/welcome
+https://www.digitalocean.com/community/tutorials/how-to-build-a-discord-bot-with-node-js-ru
+
+o17J2qFcaMcmWGW8PB5not_WHR6EiORz

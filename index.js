@@ -241,7 +241,7 @@ app.use("/api/*", async (req, res, next) => {
 */
 
 app.get("/api/products", async (req, res) => {
-//app.get("/admin/api/2022-04/products.json", async (req, res) => {    
+    //app.get("/admin/api/2022-04/products.json", async (req, res) => {    
     try {
         log('req.query 2', req.query);
         const shop = req.query.shop;
@@ -267,7 +267,7 @@ app.get("/api/products", async (req, res) => {
 
 
 // app.get("api/products-count", verifyRequest(app), async (req, res) => {
-app.get("/api/products-count",  async (req, res) => {
+app.get("/api/products-count", async (req, res) => {
     // const session = await Shopify.Utils.loadCurrentSession(req, res, true);
     const shop = req.query.shop;
     const session = shops[shop];
@@ -277,7 +277,17 @@ app.get("/api/products-count",  async (req, res) => {
     );
 
     const countData = await Product.count({ session });
-    res.status(200).send(countData); 
+    res.status(200).send(countData);
+});
+
+// app.post("/graphql", verifyRequest(app), async (req, res) => {
+app.post("/graphql", async (req, res) => {
+    try {
+        const response = await Shopify.Utils.graphqlProxy(req, res);
+        res.status(200).send(response.body);
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
 });
 
 app.use(compression());
