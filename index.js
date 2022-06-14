@@ -239,25 +239,32 @@ app.use("/api/*", async (req, res, next) => {
 /*
     Other routes
 */
+import { Product } from '@shopify/shopify-api/dist/rest-resources/2022-04/index.js';
 //app.get("/api/products", async (req, res) => {
-app.get("/admin/api/2022-04/products.json", async (req, res) => {    
+app.get("/admin/api/2022-04/products.json", async (req, res) => {
     try {
         log('req.query 2', req.query);
         const shop = req.query.shop;
         const session = shops[shop];
         log('products session', session);
+
         // Create a new client for the specified shop.
         const client = new Shopify.Clients.Rest(session.shop, session.accessToken);
         // Use `client.get` to request the specified Shopify REST API endpoint, in this case `products`.
-        const products = await client.get({
-            path: 'products',
-        });
+        // const products = await client.get({
+        //     path: 'products',
+        // });
         console.log(products);
         // const { Product } = await import(
         //   `@shopify/shopify-api/dist/rest-resources/${Shopify.Context.API_VERSION}/index.js`
         // );
         // const countData = await Product.count({ session });
         // res.status(200).send(countData);
+        import { Product } from '@shopify/shopify-api/dist/rest-resources/2022-04/index.js';
+        const test_session = await Shopify.Utils.loadCurrentSession(request, response);
+        const products = await Product.all({
+            session: test_session,
+        });
         res.status(200).send(products);
     } catch (error) {
         log('products error', error);
@@ -266,7 +273,7 @@ app.get("/admin/api/2022-04/products.json", async (req, res) => {
 
 
 // app.get("api/products-count", verifyRequest(app), async (req, res) => {
-app.get("/api/products-count",  async (req, res) => {
+app.get("/api/products-count", async (req, res) => {
     // const session = await Shopify.Utils.loadCurrentSession(req, res, true);
     const shop = req.query.shop;
     const session = shops[shop];
@@ -276,7 +283,7 @@ app.get("/api/products-count",  async (req, res) => {
     );
 
     const countData = await Product.count({ session });
-    res.status(200).send(countData); 
+    res.status(200).send(countData);
 });
 
 app.use(compression());
