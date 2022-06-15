@@ -5,6 +5,8 @@ import { state } from "./state.js";
 const shops = state.shops;
 const ACTIVE_SHOPIFY_SHOPS = state.ACTIVE_SHOPIFY_SHOPS;
 
+const log = console.log;
+
 export default function applyAuthMiddleware(app) {
 
   app.get("/", (req, res) => {
