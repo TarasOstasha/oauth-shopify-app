@@ -28,10 +28,11 @@ const USE_ONLINE_TOKENS = true;
 const TOP_LEVEL_OAUTH_COOKIE = "shopify_top_level_oauth";
 
 
-import { state } from "./middleware/state.js";
+import { state, context } from "./middleware/state.js";
 const shops = state.shops;
 const ACTIVE_SHOPIFY_SHOPS = state.ACTIVE_SHOPIFY_SHOPS;
-const context = state.context;
+
+// const context = state.context;
 
 
 log('context: ', context);
