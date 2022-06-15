@@ -10,9 +10,7 @@
 import express from 'express';
 import cookieParser from 'cookie-parser';
 
-import dotenv from 'dotenv';
-import { Shopify, ApiVersion } from '@shopify/shopify-api';
-dotenv.config();
+import { Shopify } from '@shopify/shopify-api';
 
 import compression from 'compression';
 import serveStatic from 'serve-static';
@@ -29,24 +27,16 @@ const port = 3000;
 const USE_ONLINE_TOKENS = true;
 const TOP_LEVEL_OAUTH_COOKIE = "shopify_top_level_oauth";
 
-const { SHOPIFY_API_KEY, SHOPIFY_API_SECRET, SHOPIFY_API_SCOPES, HOST, SHOP } = process.env;
 
 import { state } from "./middleware/state.js";
 const shops = state.shops;
 const ACTIVE_SHOPIFY_SHOPS = state.ACTIVE_SHOPIFY_SHOPS;
+const context = state.context;
 
-const set = {
-    API_KEY: SHOPIFY_API_KEY,
-    API_SECRET_KEY: SHOPIFY_API_SECRET,
-    API_VERSION: ApiVersion.April22,
-    SCOPES: SHOPIFY_API_SCOPES,
-    HOST_NAME: HOST,
-    IS_EMBEDDED_APP: true,
-    // This should be replaced with your preferred storage strategy
-    SESSION_STORAGE: new Shopify.Session.MemorySessionStorage(),
-};
-log('Set: ', set);
-Shopify.Context.initialize(set);
+
+log('context: ', context);
+Shopify.Context.initialize(context);
+
 
 const app = express();
 app.set("top-level-oauth-cookie", TOP_LEVEL_OAUTH_COOKIE);
