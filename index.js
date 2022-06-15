@@ -19,6 +19,7 @@ import serveStatic from 'serve-static';
 const fs = await import("fs");
 import { resolve } from "path";
 
+import state from "./middleware/state.js";
 import applyAuthMiddleware from "./middleware/auth.js";
 import verifyRequest from "./middleware/verify-request.js";
 import topLevelAuthRedirect from "./helpers/top-level-auth-redirect.js";
@@ -33,9 +34,10 @@ const TOP_LEVEL_OAUTH_COOKIE = "shopify_top_level_oauth";
 
 const { SHOPIFY_API_KEY, SHOPIFY_API_SECRET, SHOPIFY_API_SCOPES, HOST, SHOP } = process.env;
 
-// sessionSave == shops[shop] == session (Shopify.Utils.loadOfflineSession(SHOP))
-const shops = {};
-const ACTIVE_SHOPIFY_SHOPS = {};
+// const shops = {};
+// const ACTIVE_SHOPIFY_SHOPS = {};
+const shops = state.shops;
+const ACTIVE_SHOPIFY_SHOPS = state.ACTIVE_SHOPIFY_SHOPS;
 
 const set = {
     API_KEY: SHOPIFY_API_KEY,
@@ -92,102 +94,7 @@ app.get("/", (req, res) => {
     else res.status(302).redirect(`/auth?shop=${req.query.shop}`);
 });
 
-app.get('/auth', async (req, res) => {
-    if (!req.signedCookies[app.get("top-level-oauth-cookie")]) {
-        return res.redirect(
-            `/auth/toplevel?${new URLSearchParams(req.query).toString()}`
-        );
-    }
-    const authRoute = await Shopify.Auth.beginAuth(
-        req,
-        res,
-        req.query.shop,
-        '/auth/callback',
-        false
-        // app.get("use-online-tokens")
-    )
-    res.status(302).redirect(authRoute);
-});
-
-app.get("/auth/toplevel", (req, res) => {
-    res.cookie(app.get("top-level-oauth-cookie"), "1", {
-        signed: true,
-        httpOnly: true,
-        sameSite: "strict",
-    });
-    res.set("Content-Type", "text/html");
-    res.send(
-        topLevelAuthRedirect({
-            apiKey: Shopify.Context.API_KEY,
-            hostName: Shopify.Context.HOST_NAME,
-            host: req.query.host,
-            query: req.query,
-        })
-    );
-});
-
-app.get('/auth/callback', async (req, res) => {
-    const session = await Shopify.Auth.validateAuthCallback(
-        req,
-        res,
-        req.query
-    );
-    log('session: ', session);
-    shops[session.shop] = session;
-    return res.redirect(`/?host=${req.query.host}&shop=${req.query.shop}`);
-});
-
-// app.get("/auth/callback", async (req, res) => {
-//     try {
-//         const session = await Shopify.Auth.validateAuthCallback(
-//             req,
-//             res,
-//             req.query
-//         );
-//         log('session: ', session);
-//         shops[session.shop] = session;
-
-//         const host = req.query.host;
-//         app.set(
-//             "active-shopify-shops",
-//             Object.assign(app.get("active-shopify-shops"), {
-//                 [session.shop]: session.scope,
-//             })
-//         );
-
-//         const response = await Shopify.Webhooks.Registry.register({
-//             shop: session.shop,
-//             accessToken: session.accessToken,
-//             topic: "APP_UNINSTALLED",
-//             path: "/webhooks",
-//         });
-
-//         if (!response["APP_UNINSTALLED"].success) {
-//             console.log(
-//                 `Failed to register APP_UNINSTALLED webhook: ${response.result}`
-//             );
-//         }
-
-//         // Redirect to app with shop parameter upon auth
-//         res.redirect(`/?shop=${session.shop}&host=${host}`);
-//     } catch (e) {
-//         switch (true) {
-//             case e instanceof Shopify.Errors.InvalidOAuthError:
-//                 res.status(400);
-//                 res.send(e.message);
-//                 break;
-//             case e instanceof Shopify.Errors.CookieNotFound:
-//             case e instanceof Shopify.Errors.SessionNotFound:
-//                 // This is likely because the OAuth session cookie expired before the merchant approved the request
-//                 res.redirect(`/auth?shop=${req.query.shop}`);
-//                 break;
-//             default:
-//                 res.status(500);
-//                 res.send(e.message);
-//                 break;
-//         }
-//     }
-// });
+applyAuthMiddleware(app);
 
 Shopify.Webhooks.Registry.addHandler("APP_UNINSTALLED", {
     path: "/webhooks",
@@ -199,12 +106,10 @@ Shopify.Webhooks.Registry.addHandler("APP_UNINSTALLED", {
 app.post("/webhooks", async (req, res) => {
     try {
         await Shopify.Webhooks.Registry.process(req, res);
-        console.log(`Webhook processed, returned status code 200`);
+        log(`Webhook processed, returned status code 200`);
     } catch (error) {
-        console.log(`Failed to process webhook: ${error}`);
-        if (!res.headersSent) {
-            res.status(500).send(error.message);
-        }
+        log(`Failed to process webhook: ${error}`);
+        if (!res.headersSent) res.status(500).send(error.message);
     }
 });
 
@@ -218,7 +123,7 @@ app.use((req, res, next) => {
         );
     } else {
         res.setHeader("Content-Security-Policy", `frame-ancestors 'none';`);
-    }
+    };
     next();
 });
 
@@ -241,29 +146,17 @@ app.use("/api/*", async (req, res, next) => {
 */
 
 app.get("/api/products", async (req, res) => {
-    //app.get("/admin/api/2022-04/products.json", async (req, res) => {    
     try {
         log('req.query 2', req.query);
-
-    const sessionX = await Shopify.Utils.loadCurrentSession(req, res, true);
-    log('sessionX ', sessionX);
-
-
         const shop = req.query.shop;
         const session = shops[shop];
         log('products session', session);
         // Create a new client for the specified shop.
         const client = new Shopify.Clients.Rest(session.shop, session.accessToken);
-        // Use `client.get` to request the specified Shopify REST API endpoint, in this case `products`.
         const products = await client.get({
             path: 'products',
         });
-        console.log(products);
-        // const { Product } = await import(
-        //   `@shopify/shopify-api/dist/rest-resources/${Shopify.Context.API_VERSION}/index.js`
-        // );
-        // const countData = await Product.count({ session });
-        // res.status(200).send(countData);
+        log(products);
         res.status(200).send(products);
     } catch (error) {
         log('products error', error);
@@ -275,11 +168,10 @@ app.get("/api/products", async (req, res) => {
 app.get("/api/products-count", async (req, res) => {
     const shop = req.query.shop;
     const session = shops[shop];
-    console.log(Shopify.Context.API_VERSION);
+    log(Shopify.Context.API_VERSION);
     const { Product } = await import(
         `@shopify/shopify-api/dist/rest-resources/${Shopify.Context.API_VERSION}/index.js`
     );
-
     const countData = await Product.count({ session });
     res.status(200).send(countData);
 });
@@ -297,7 +189,6 @@ app.post("/graphql", async (req, res) => {
 app.use(compression());
 app.use(serveStatic(resolve("app-front/dist")));
 
-// applyAuthMiddleware(app); // hello world
 
 
 app.use("/*", (req, res, next) => {
