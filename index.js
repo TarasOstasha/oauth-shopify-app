@@ -98,18 +98,7 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use("/api/*", async (req, res, next) => {
-    log('*1', req.query);
-    const shop = req.query.shop;
-    log('*2', shop);
-    if (!shop) return res.json({ msg: 'must be -> req.query.shop' })
-    log('*3');
-    const session = shops[shop];
-    log('*4', session);
-    if (session) return next();
-    log('*5');
-    res.status(302).redirect(`/auth?shop=${req.query.shop}`);
-});
+
 
 
 /*
