@@ -1,7 +1,7 @@
 import { Shopify } from "@shopify/shopify-api";
 import topLevelAuthRedirect from "../helpers/top-level-auth-redirect.js";
 
-import state from "./state.js";
+import { state } from "./state.js";
 const shops = state.shops;
 const ACTIVE_SHOPIFY_SHOPS = state.ACTIVE_SHOPIFY_SHOPS;
 

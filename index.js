@@ -31,7 +31,7 @@ const TOP_LEVEL_OAUTH_COOKIE = "shopify_top_level_oauth";
 
 const { SHOPIFY_API_KEY, SHOPIFY_API_SECRET, SHOPIFY_API_SCOPES, HOST, SHOP } = process.env;
 
-import state from "./middleware/state.js";
+import { state } from "./middleware/state.js";
 const shops = state.shops;
 const ACTIVE_SHOPIFY_SHOPS = state.ACTIVE_SHOPIFY_SHOPS;
 
