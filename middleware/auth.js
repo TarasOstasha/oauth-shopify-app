@@ -7,6 +7,12 @@ const ACTIVE_SHOPIFY_SHOPS = state.ACTIVE_SHOPIFY_SHOPS;
 
 export default function applyAuthMiddleware(app) {
 
+  app.get("/", (req, res) => {
+    const isShop = typeof shops[req.query.shop] !== 'undefined';
+    if (isShop) res.status(200).redirect(`/app?shop=${req.query.shop}`)
+    else res.status(302).redirect(`/auth?shop=${req.query.shop}`);
+  });
+
   app.get('/auth', async (req, res) => {
     if (!req.signedCookies[app.get("top-level-oauth-cookie")]) {
       return res.redirect(
