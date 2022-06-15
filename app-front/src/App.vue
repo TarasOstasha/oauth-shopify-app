@@ -61,10 +61,9 @@ export default {
         shop: null, // "tonyjoss-store.myshopify.com"
         state: null, // "608570500830120"
       },
-      shop: '',
+      shop: 'tonyjoss-store.myshopify.com',
       // userData: {},
       // appData: {}
-
     }
   },
 
@@ -96,7 +95,6 @@ export default {
     },
     async fetchSession() {
       // const shop = localStorage.getItem('shop');
-      this.shop = 'tonyjoss-store.myshopify.com';
       const url = `${this.api()}/session-info?shop=${this.shop}`;
       const answer = await axios.get(url);
       log(answer);

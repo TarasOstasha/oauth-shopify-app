@@ -244,6 +244,11 @@ app.get("/api/products", async (req, res) => {
     //app.get("/admin/api/2022-04/products.json", async (req, res) => {    
     try {
         log('req.query 2', req.query);
+
+    const sessionX = await Shopify.Utils.loadCurrentSession(req, res, true);
+    log('sessionX ', sessionX);
+
+
         const shop = req.query.shop;
         const session = shops[shop];
         log('products session', session);
@@ -268,7 +273,6 @@ app.get("/api/products", async (req, res) => {
 
 // app.get("api/products-count", verifyRequest(app), async (req, res) => {
 app.get("/api/products-count", async (req, res) => {
-    // const session = await Shopify.Utils.loadCurrentSession(req, res, true);
     const shop = req.query.shop;
     const session = shops[shop];
     console.log(Shopify.Context.API_VERSION);
