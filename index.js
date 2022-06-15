@@ -97,7 +97,7 @@ app.get("/api/products-count", async (req, res) => {
     res.status(200).send(countData);
 });
 
-function getProducts(shop) {
+async function getProducts(shop) {
     try {
         const session = shops[shop];
         log('products session', session);
