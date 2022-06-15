@@ -1,17 +1,11 @@
-<script setup lang="ts">
-
-</script>
-
-
 <template>
-
   <div class="session-info">
     <div v-if="!session.id" class="alert alert-danger" role="alert">
       No session !!!
     </div>
     <div v-if="session.id" class="alert alert-success" role="alert">
       Session info:
-        <div>
+      <div>
         aession: {{ session }}
       </div>
       <div>
@@ -32,14 +26,13 @@
       <div>
         state: {{ session.state }}
       </div>
-
     </div>
     <button @click="fetchSession">fetchSession</button>
   </div>
 
 
   <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
+    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="50" height="50" />
 
     <div class="wrapper">
       <HelloWorld msg="You did it!" />
@@ -47,9 +40,11 @@
       <nav>
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/about">About</RouterLink>
-        <RouterLink to="/about">Dev</RouterLink>
-        <RouterLink to="/about">Products</RouterLink>
+        <RouterLink to="/dev">Dev</RouterLink>
+        <RouterLink to="/products">Products</RouterLink>
       </nav>
+
+      <hr/>
 
       <a class="btn btn-primary" href="https://oauth-shopify-app.herokuapp.com/auth?shop=tonyjoss-store.myshopify.com"
         role="button">Working variant</a>
@@ -63,7 +58,7 @@
   <RouterView />
 </template>
 
-<script>
+<script lang="ts">
 
 import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from '@/components/HelloWorld.vue'
@@ -128,35 +123,33 @@ export default {
         : ''
     },
     saveShop() {
-      const query = this.route.query;
+      const query: any = this.route.query;
       console.log(query)
-
-      const shop = query.shop;
+      const shop: string = query.shop;
       console.log(777, shop);
       // localStorage.setItem('shop', shop);
       this.shop = shop;
     },
-    fetchSession() {
+    async fetchSession() {
       // const shop = localStorage.getItem('shop');
-      axios
-        .get(`${this.api()}/session-info?shop=${this.shop}`)
-        .then(answer => {
-          log(answer);
-          const session = answer.data.sessionSave;
-          if (session) this.session = session;
-        });
+      this.shop = 'tonyjoss-store.myshopify.com';
+      const url = `${this.api()}/session-info?shop=${this.shop}`;
+      const answer = await axios.get(url);
+      log(answer);
+      const session = answer.data.sessionSave;
+      if (session) this.session = session;
     },
-    getProducts() {
+    async getProducts() {
       // const shop = localStorage.getItem('shop');
-      axios
-        .get(`${this.api()}/api/products?shop=${this.shop}`)
-        .then(answer => (console.log(answer)));
+      const url = `${this.api()}/api/products?shop=${this.shop}`;
+      const answer = await axios.get(url);
+      console.log(answer);
     },
-    getProducts2() {
+    async getProducts2() {
       // const shop = localStorage.getItem('shop');
-      axios
-        .get(`${this.api()}/api/products-count?shop=${this.shop}`)
-        .then(answer => (console.log(answer)));
+      const url = `${this.api()}/api/products-count?shop=${this.shop}`;
+      const answer = await axios.get(url);
+      console.log(answer);
     }
   }
 }
