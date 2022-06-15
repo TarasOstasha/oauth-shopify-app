@@ -27,13 +27,7 @@ const port = 3000;
 const USE_ONLINE_TOKENS = true;
 const TOP_LEVEL_OAUTH_COOKIE = "shopify_top_level_oauth";
 
-
-import { state, context } from "./middleware/state.js";
-const shops = state.shops;
-const ACTIVE_SHOPIFY_SHOPS = state.ACTIVE_SHOPIFY_SHOPS;
-
-// const context = state.context;
-
+import { shops, context } from "./middleware/state.js";
 
 log('context: ', context);
 Shopify.Context.initialize(context);
@@ -41,7 +35,7 @@ Shopify.Context.initialize(context);
 
 const app = express();
 app.set("top-level-oauth-cookie", TOP_LEVEL_OAUTH_COOKIE);
-app.set("active-shopify-shops", ACTIVE_SHOPIFY_SHOPS);
+app.set("active-shopify-shops", shops);
 // app.set("use-online-tokens", USE_ONLINE_TOKENS);
 
 app.use(cookieParser(Shopify.Context.API_SECRET_KEY));
@@ -60,7 +54,7 @@ applyAuthMiddleware(app);
 Shopify.Webhooks.Registry.addHandler("APP_UNINSTALLED", {
     path: "/webhooks",
     webhookHandler: async (topic, shop, body) => {
-        delete ACTIVE_SHOPIFY_SHOPS[shop];
+        delete shops[shop];
     },
 });
 

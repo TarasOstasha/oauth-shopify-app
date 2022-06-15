@@ -15,10 +15,6 @@ const context = {
     SESSION_STORAGE: new Shopify.Session.MemorySessionStorage(),
 };
 
-const state = {
-    shops: {},
-    ACTIVE_SHOPIFY_SHOPS: {},
-    context
-};
+const shops = {};
 
-export { state, context }
+export { context, shops }
