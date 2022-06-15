@@ -89,11 +89,16 @@ app.use((req, res, next) => {
 /*
     Other routes
 */
+app.get("/api/products", async (req, res) => getProducts(req.query.shop));
 
-app.get("/api/products", async (req, res) => {
+// app.get("api/products-count", verifyRequest(app), async (req, res) => {
+app.get("/api/products-count", async (req, res) => {
+    const countData = await productsCount(req.query.shop)
+    res.status(200).send(countData);
+});
+
+function getProducts(shop) {
     try {
-        log('req.query 2', req.query);
-        const shop = req.query.shop;
         const session = shops[shop];
         log('products session', session);
         // Create a new client for the specified shop.
@@ -106,19 +111,18 @@ app.get("/api/products", async (req, res) => {
     } catch (error) {
         log('products error', error);
     }
-});
+};
 
-// app.get("api/products-count", verifyRequest(app), async (req, res) => {
-app.get("/api/products-count", async (req, res) => {
-    const shop = req.query.shop;
+async function productsCount(shop) {
     const session = shops[shop];
     log(Shopify.Context.API_VERSION);
-    const { Product } = await import(
-        `@shopify/shopify-api/dist/rest-resources/${Shopify.Context.API_VERSION}/index.js`
-    );
+    const path = `@shopify/shopify-api/dist/rest-resources/${Shopify.Context.API_VERSION}/index.js`
+    const { Product } = await import(path);
     const countData = await Product.count({ session });
-    res.status(200).send(countData);
-});
+    return countData
+}
+
+
 
 // app.post("/graphql", verifyRequest(app), async (req, res) => {
 app.post("/graphql", async (req, res) => {
