@@ -14,13 +14,13 @@ import { Shopify } from '@shopify/shopify-api';
 
 import compression from 'compression';
 import serveStatic from 'serve-static';
-const fs = await import("fs");
 import { resolve } from "path";
 
 import applyAuthMiddleware from "./middleware/auth.js";
 import verifyRequest from "./middleware/verify-request.js";
 import topLevelAuthRedirect from "./helpers/top-level-auth-redirect.js";
 
+const fs = await import("fs");
 const log = console.log;
 
 const port = 3000;
