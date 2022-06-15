@@ -89,11 +89,14 @@ app.use((req, res, next) => {
 /*
     Other routes
 */
-app.get("/api/products", async (req, res) => getProducts(req.query.shop));
+app.get("/api/products", async (req, res) => {
+    const products = await getProducts(req.query.shop);
+    res.status(200).send(products);
+});
 
 // app.get("api/products-count", verifyRequest(app), async (req, res) => {
 app.get("/api/products-count", async (req, res) => {
-    const countData = await productsCount(req.query.shop)
+    const countData = await productsCount(req.query.shop);
     res.status(200).send(countData);
 });
 
@@ -107,7 +110,7 @@ async function getProducts(shop) {
             path: 'products',
         });
         log(products);
-        res.status(200).send(products);
+        return products
     } catch (error) {
         log('products error', error);
     }
