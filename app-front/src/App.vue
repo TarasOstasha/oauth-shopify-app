@@ -1,94 +1,56 @@
+<script setup lang="ts">
+import Session from '@/components/Session.vue'
+import { useRoute } from "vue-router";
+import { useRouter } from "vue-router";
+const route = useRoute();
+</script>
+
 <template>
-  <div class="session-info">
-    <div v-if="!session.id" class="alert alert-danger" role="alert">
-      No session !!!
-    </div>
-    <div v-if="session.id" class="alert alert-success" role="alert">
-      Session info:
-      <div>
-        aession: {{ session }}
-      </div>
-      <div>
-        accessToken: {{ session.accessToken }}
-      </div>
-      <div>
-        id: {{ session.id }}
-      </div>
-      <div>
-        isOnline: {{ session.isOnline }}
-      </div>
-      <div>
-        scope: {{ session.scope }}
-      </div>
-      <div>
-        shop: {{ session.shop }}
-      </div>
-      <div>
-        state: {{ session.state }}
-      </div>
-    </div>
-    <button @click="fetchSession">fetchSession</button>
-  </div>
-
-
+  <Session />
   <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="50" height="50" />
-
     <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
       <nav>
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/about">About</RouterLink>
         <RouterLink to="/dev">Dev</RouterLink>
         <RouterLink to="/products">Products</RouterLink>
       </nav>
-
-      <hr/>
-
+      <hr />
       <a class="btn btn-primary" href="https://oauth-shopify-app.herokuapp.com/auth?shop=tonyjoss-store.myshopify.com"
         role="button">Working variant</a>
       <a class="btn btn-primary" role="button" @click="getProducts">Products</a>
       <a class="btn btn-primary" role="button" @click="getProducts2">Products2</a>
-
-
     </div>
   </header>
-
   <RouterView />
 </template>
 
 <script lang="ts">
 
 import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from '@/components/HelloWorld.vue'
-
-import { ref } from 'vue'
 import axios from 'axios'
 // import { useUserStore } from '@/stores/user'
 // import { useAppStore } from '@/stores/app'
-
-import { useRoute } from "vue-router";
-import { useRouter } from "vue-router";
-
 import { config } from "@/config";
 const log = console.log;
 
 
 export default {
+
   components: {
-    HelloWorld
   },
-  setup() {
-    const route = useRoute();
-    // const storeUser = useUserStore()
-    // const storeApp = useAppStore()
-    return {
-      // storeUser,
-      // storeApp
-      route
-    }
-  },
+  
+  // setup() {
+  //   const route = useRoute();
+  //   // const storeUser = useUserStore()
+  //   // const storeApp = useAppStore()
+  //   return {
+  //     // storeUser,
+  //     // storeApp
+  //     route
+  //   }
+  // },
+
   data() {
     return {
       session: {
@@ -113,9 +75,11 @@ export default {
     // }, 1000);
     log(this.api())
   },
+
   mounted() {
     setTimeout(() => { this.saveShop() }, 300);
   },
+
   methods: {
     api: () => {
       return location.hostname == 'localhost'
