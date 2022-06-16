@@ -6,6 +6,9 @@ const storeProduct = useProductStore();
 
 <template>
   <main>
+
+    <a class="btn btn-primary" role="button" @click="getProducts">Get Products</a>
+
     <div v-for="product in storeProduct.products" :key="product.id">
       <div class="card" style="width: 18rem; margin-top: 1rem; padding-top: 1rem;">
         <img src="@/assets/logo.svg" width="50" height="50" class="card-img-top" alt="...">
@@ -36,10 +39,13 @@ export default {
   created() {
   },
   async mounted() {
-    await this.storeProduct.fetchProducts();
-    log(this.storeProduct.products);
+    await this.getProducts();
   },
   methods: {
+    async getProducts() {
+      await this.storeProduct.fetchProducts();
+      log(this.storeProduct.products);
+    }
   }
 }
 </script>
