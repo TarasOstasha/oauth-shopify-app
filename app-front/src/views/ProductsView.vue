@@ -25,34 +25,15 @@
 </template>
 
 
-<script lang="ts">
+<script setup lang="ts">
 import { httpOptions, log, logT, api } from '@/utils';
 import { useProductStore } from '@/stores/products';
 import { onMounted, onUnmounted, ref } from 'vue'
 
-export default {
-  setup() {
-    const storeProduct = useProductStore();
-    onMounted(async () => {
-      try {
-        log('TEST STOR METHOD', storeProduct)
-      } catch (error) {
-        log('ERROR', error)
-      }
-      await storeProduct.fetchProducts();
-    });
-    return {
-      storeProduct
-    }
-  },
-  data() {
-    return {
-    }
-  },
-  created() {
-  },
-  methods: {
+const storeProduct = useProductStore();
 
-  }
-}
+onMounted(async () => {
+  await storeProduct.fetchProducts();
+});
+
 </script>
