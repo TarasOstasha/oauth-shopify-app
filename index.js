@@ -50,9 +50,16 @@ app.get("/session-info", async (req, res) => {
 });
 
 app.get("/api/prepare-data", async (req, res) => {
-    await prepareData();
+    await prepareData(req.query.shop);
     res.status(200).send('ok');
 });
+
+let products = [];
+let countData = 0;
+async function prepareData(shop) {
+    products = await getProducts(shop);
+    countData = await productsCount(shop);
+}
 
 app.get("/api/products-prepared", async (req, res) => {
     res.status(200).send(products);
@@ -111,12 +118,7 @@ app.get("/api/products-count", async (req, res) => {
     res.status(200).send(countData);
 });
 
-let products = [];
-let countData = 0;
-async function prepareData() {
-    products = await getProducts(req.query.shop);
-    countData = await productsCount(req.query.shop);
-}
+
 
 async function getProducts(shop) {
     try {
