@@ -4,7 +4,6 @@
 
 <template>
   <main>
-        <hr />
 
 
   </main>

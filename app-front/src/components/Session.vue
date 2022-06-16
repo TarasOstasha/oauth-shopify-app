@@ -1,14 +1,3 @@
-<script setup lang="ts">
-import { useAppStore } from '@/stores/app';
-import { useRoute } from "vue-router";
-import { useRouter } from "vue-router";
-import axios from 'axios';
-import { shop } from "@/config";
-import { httpOptions, log, api } from '@/utils';
-const storeApp = useAppStore();
-const route = useRoute();
-</script>
-
   <template>
     <div class="session-info">
         <div v-if="!storeApp.session.id" @click="storeApp.fetchSession" class="alert alert-danger" role="alert">
@@ -20,21 +9,18 @@ const route = useRoute();
     </div>
 </template>
 
-  
-<script lang="ts">
-export default {
-    data() {
-        return {
-        }
-    },
-    created() {
-    },
-    mounted() {
-    },
-    methods: {
-    }
-}
+
+<script setup lang="ts">
+import { onMounted, onUnmounted, ref } from 'vue'
+import { httpOptions, log, logT, api } from '@/utils';
+import { useAppStore } from '@/stores/app';
+const storeApp = useAppStore();
+
+onMounted(async () => {
+  await storeApp.fetchSession();
+});
 </script>
+
 
 <style>
 .session-info {

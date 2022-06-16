@@ -21,9 +21,10 @@ const route = useRoute();
         <RouterLink to="/products">Products</RouterLink>
       </nav>
       <hr />
-      <a class="btn btn-primary" role="button" @click="prepareData">Prepare data</a>
+      <!-- <a class="btn btn-primary" role="button" @click="prepareData">Prepare data</a> -->
       <a class="btn btn-primary" href="https://oauth-shopify-app.herokuapp.com/auth?shop=tonyjoss-store.myshopify.com"
         role="button">Working variant</a>
+      <hr />
     </div>
   </header>
   <RouterView />
@@ -69,11 +70,11 @@ export default {
       const answer = await axios.get(url);
       log(answer);
     },
-    async prepareData() {
-      const url = `${api()}/api/prepare-data?shop=${shop}`;
-      const answer = await axios.get(url);
-      log(answer);
-    }
+    // async prepareData() {
+    //   const url = `${api()}/api/prepare-data?shop=${shop}`;
+    //   const answer = await axios.get(url);
+    //   log(answer);
+    // }
   }
 }
 
