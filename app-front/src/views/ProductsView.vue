@@ -1,9 +1,3 @@
-<script setup lang="ts">
-import { httpOptions, log, logT, api } from '@/utils';
-import { useProductStore } from '@/stores/products';
-const storeProduct = useProductStore();
-</script>
-
 <template>
   <main>
 
@@ -30,21 +24,32 @@ const storeProduct = useProductStore();
   </main>
 </template>
 
+
 <script lang="ts">
+import { httpOptions, log, logT, api } from '@/utils';
+import { useProductStore } from '@/stores/products';
+import { onMounted, onUnmounted, ref } from 'vue'
+
 export default {
+  setup() {
+    const storeProduct = useProductStore();
+    onMounted(async () => {
+      try {
+        log('TEST STOR METHOD', storeProduct)
+      } catch (error) {
+        log('ERROR', error)
+      }
+      await storeProduct.fetchProducts();
+    });
+    return {
+      storeProduct
+    }
+  },
   data() {
     return {
     }
   },
   created() {
-  },
-  async mounted() {
-    try {
-      log('TEST STOR METHOD', this.storeProduct, storeProduct)
-    } catch (error) {
-      log('ERROR', error)
-    }
-    await this.storeProduct.fetchProducts();
   },
   methods: {
 

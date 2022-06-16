@@ -9,7 +9,7 @@ interface productState{
 
 export const useProductStore = defineStore({
   id: 'products',
-  state: (): productState => ({
+  state: (): any => ({
     products: []
   }),
   getters: {
