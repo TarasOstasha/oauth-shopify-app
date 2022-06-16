@@ -6,7 +6,23 @@ const storeProduct = useProductStore();
 
 <template>
   <main>
-    Products
+    <div v-for="product in storeProduct.products" :key="product.id">
+      <div class="card" style="width: 18rem; margin-top: 1rem; padding-top: 1rem;">
+        <img src="@/assets/logo.svg" width="50" height="50" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">{{ product.title }}</h5>
+          <p class="card-text">Some text.</p>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li v-for="variant in product.variants" :key="variant.id" class="list-group-item">
+            {{ variant.title }}
+          </li>
+        </ul>
+        <div class="card-body">
+          <a href="#" class="card-link">Do something</a>
+        </div>
+      </div>
+    </div>
 
   </main>
 </template>

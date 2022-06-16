@@ -59,7 +59,7 @@ let countData = 0;
 async function prepareData(shop) {
     products = await getProducts(shop);
     countData = await productsCount(shop);
-}
+};
 
 app.get("/api/products-prepared", async (req, res) => {
     res.status(200).send(products);
