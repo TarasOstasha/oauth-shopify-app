@@ -1,7 +1,12 @@
 <script setup lang="ts">
-import Session from '@/components/Session.vue'
+import { RouterLink, RouterView } from 'vue-router';
+import axios from 'axios';
+import { httpOptions, log, api } from '@/utils';
+import Session from '@/components/Session.vue';
 import { useRoute } from "vue-router";
 import { useRouter } from "vue-router";
+import { shop } from "@/config";
+
 const route = useRoute();
 </script>
 
@@ -16,10 +21,9 @@ const route = useRoute();
         <RouterLink to="/products">Products</RouterLink>
       </nav>
       <hr />
+      <a class="btn btn-primary" role="button" @click="prepareData">Prepare data</a>
       <a class="btn btn-primary" href="https://oauth-shopify-app.herokuapp.com/auth?shop=tonyjoss-store.myshopify.com"
         role="button">Working variant</a>
-      <a class="btn btn-primary" role="button" @click="getProducts">Products</a>
-      <a class="btn btn-primary" role="button" @click="getProducts2">Products2</a>
     </div>
   </header>
   <RouterView />
@@ -27,43 +31,9 @@ const route = useRoute();
 
 <script lang="ts">
 
-import { RouterLink, RouterView } from 'vue-router'
-import axios from 'axios'
-// import { useUserStore } from '@/stores/user'
-// import { useAppStore } from '@/stores/app'
-import { config } from "@/config";
-const log = console.log;
-
-
 export default {
-
-  components: {
-  },
-  
-  // setup() {
-  //   const route = useRoute();
-  //   // const storeUser = useUserStore()
-  //   // const storeApp = useAppStore()
-  //   return {
-  //     // storeUser,
-  //     // storeApp
-  //     route
-  //   }
-  // },
-
   data() {
     return {
-      session: {
-        accessToken: null, // "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"
-        id: null, // "offline_tonyjoss-store.myshopify.com"
-        isOnline: null, // false
-        scope: null, // "write_products,write_customers,write_draft_orders"
-        shop: null, // "tonyjoss-store.myshopify.com"
-        state: null, // "608570500830120"
-      },
-      shop: 'tonyjoss-store.myshopify.com',
-      // userData: {},
-      // appData: {}
     }
   },
 
@@ -72,55 +42,42 @@ export default {
     // setInterval(() => {
     //   this.fetchSession();
     // }, 1000);
-    log(this.api())
+    log(api())
   },
 
   mounted() {
-    setTimeout(() => { this.saveShop() }, 300);
+    // setTimeout(() => { this.saveShop() }, 300);
   },
 
   methods: {
-    api: () => {
-      return location.hostname == 'localhost'
-        ? 'https://oauth-shopify-app.herokuapp.com'
-        : ''
-    },
-    saveShop() {
-      const query: any = this.route.query;
-      console.log(query)
-      const shop: string = query.shop;
-      console.log(777, shop);
-      // localStorage.setItem('shop', shop);
-      this.shop = shop;
-    },
-    async fetchSession() {
-      // const shop = localStorage.getItem('shop');
-      const url = `${this.api()}/session-info?shop=${this.shop}`;
+    // saveShop() {
+    //   const query: any = this.route.query;
+    //   log(query)
+    //   const shop: string = query.shop;
+    //   log(777, shop);
+    //   // localStorage.setItem('shop', shop);
+    //   this.shop = shop;
+    // },
+
+    async getProducts() {
+      const url = `${api()}/api/products?shop=${shop}`;
       const answer = await axios.get(url);
       log(answer);
-      const session = answer.data.sessionSave;
-      if (session) this.session = session;
-    },
-    async getProducts() {
-      // const shop = localStorage.getItem('shop');
-      const url = `${this.api()}/api/products?shop=${this.shop}`;
-      const answer = await axios.get(url);
-      console.log(answer);
     },
     async getProducts2() {
-      // const shop = localStorage.getItem('shop');
-      const url = `${this.api()}/api/products-count?shop=${this.shop}`;
+      const url = `${api()}/api/products-count?shop=${shop}`;
       const answer = await axios.get(url);
-      console.log(answer);
+      log(answer);
+    },
+    async prepareData() {
+      const url = `${api()}/api/prepare-data?shop=${shop}`;
+      const answer = await axios.get(url);
+      log(answer);
     }
   }
 }
 
-
-
 </script>
-
-
 
 
 <style>

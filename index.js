@@ -49,6 +49,17 @@ app.get("/session-info", async (req, res) => {
     })
 });
 
+app.get("/api/prepare-data", async (req, res) => {
+    await prepareData();
+    res.status(200).send('ok');
+});
+
+app.get("/api/products-prepared", async (req, res) => {
+    res.status(200).send(products);
+});
+
+
+
 applyAuthMiddleware(app);
 
 Shopify.Webhooks.Registry.addHandler("APP_UNINSTALLED", {
@@ -83,12 +94,12 @@ app.use((req, res, next) => {
     next();
 });
 
-
-
-
 /*
     Other routes
 */
+
+
+
 app.get("/api/products", async (req, res) => {
     const products = await getProducts(req.query.shop);
     res.status(200).send(products);
@@ -99,6 +110,13 @@ app.get("/api/products-count", async (req, res) => {
     const countData = await productsCount(req.query.shop);
     res.status(200).send(countData);
 });
+
+let products = [];
+let countData = 0;
+async function prepareData() {
+    products = await getProducts(req.query.shop);
+    countData = await productsCount(req.query.shop);
+}
 
 async function getProducts(shop) {
     try {
