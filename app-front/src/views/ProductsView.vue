@@ -7,7 +7,7 @@ const storeProduct = useProductStore();
 <template>
   <main>
 
-    <a class="btn btn-primary" role="button" @click="getProducts">Get Products</a>
+    <a class="btn btn-primary" role="button" @click="storeProduct.fetchProducts">Get Products</a>
 
     <div v-for="product in storeProduct.products" :key="product.id">
       <div class="card" style="width: 18rem; margin-top: 1rem; padding-top: 1rem;">
@@ -39,13 +39,15 @@ export default {
   created() {
   },
   async mounted() {
-    await this.getProducts();
+    try {
+      log('TEST STOR METHOD', this.storeProduct, storeProduct)
+    } catch (error) {
+      log('ERROR', error)
+    }
+    await this.storeProduct.fetchProducts();
   },
   methods: {
-    async getProducts() {
-      await this.storeProduct.fetchProducts();
-      log(this.storeProduct.products);
-    }
+
   }
 }
 </script>
