@@ -1,5 +1,6 @@
 import { Shopify } from "@shopify/shopify-api";
 import topLevelAuthRedirect from "../helpers/top-level-auth-redirect.js";
+import cookieParser from 'cookie-parser';
 
 import { shops, context, state } from "./state.js";
 

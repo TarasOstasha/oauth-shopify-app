@@ -8,8 +8,6 @@
 */
 
 import express from 'express';
-import cookieParser from 'cookie-parser';
-
 import { Shopify } from '@shopify/shopify-api';
 
 import compression from 'compression';
