@@ -2,7 +2,7 @@ import { Shopify } from "@shopify/shopify-api";
 import verifyRequest from "./verify-request.js";
 import {
     shops,
-    products, countData
+    products, 
 } from "./state.js";
 const log = console.log;
 import { getProducts, productsCount, prepareData, } from '../core/controllers.js';

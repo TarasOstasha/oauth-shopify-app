@@ -20,10 +20,9 @@ const shops = {};
 /* 
     dev vars
 */
-let products = [];
-let countData = 0;
+const products = [];
 
 export { 
     context, shops, 
-    products, countData
+    products, 
 }
