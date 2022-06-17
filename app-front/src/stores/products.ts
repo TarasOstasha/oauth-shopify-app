@@ -15,15 +15,15 @@ export const useProductStore = defineStore({
   getters: {
   },
   actions: {
-    async fetchProducts() {
+    async fetchPreparedProducts() {
       const url = `${api()}/products-prepared?shop=${shop}`;
       const answer = await axios.get(url);
       log('products state answer', answer);
       this.products = answer.data.result.result.products;
       log(this.products);
     },
-    async fetchPreparedProducts() {
-      const url = `${api()}/products?shop=${shop}`;
+    async fetchProducts() {
+      const url = `${api()}/api/products?shop=${shop}`;
       const answer = await axios.get(url);
       log('products state answer', answer);
       this.products = answer.data.result.result.products;
