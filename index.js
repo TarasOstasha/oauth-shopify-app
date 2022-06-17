@@ -17,8 +17,10 @@ import serveStatic from 'serve-static';
 import { resolve } from "path";
 
 import applyAuthMiddleware from "./middleware/auth.js";
+import router from "./middleware/router.js";
+import routerDev from "./middleware/router-dev.js";
+
 import verifyRequest from "./middleware/verify-request.js";
-import topLevelAuthRedirect from "./helpers/top-level-auth-redirect.js";
 
 const fs = await import("fs");
 const log = console.log;
@@ -28,6 +30,7 @@ const USE_ONLINE_TOKENS = true;
 const TOP_LEVEL_OAUTH_COOKIE = "shopify_top_level_oauth";
 
 import { shops, context } from "./middleware/state.js";
+
 
 log('context: ', context);
 Shopify.Context.initialize(context);
@@ -40,34 +43,7 @@ app.set("active-shopify-shops", shops);
 
 app.use(cookieParser(Shopify.Context.API_SECRET_KEY));
 
-app.get("/session-info", async (req, res) => {
-    const shop = req.query.shop;
-    const session = shops[shop];
-    res.json({
-        sessionSave: session,
-        shops
-    })
-});
-
-// app.get("/api/prepare-data", async (req, res) => {
-//     await prepareData(req.query.shop);
-//     res.status(200).send('ok');
-// });
-
-let products = [];
-let countData = 0;
-
-async function prepareData(shop) {
-    products = await getProducts(shop);
-    countData = await productsCount(shop);
-};
-
-app.get("/api/products-prepared", async (req, res) => {
-    await prepareData(req.query.shop);
-    res.status(200).send(products);
-});
-
-
+routerDev(app);
 
 applyAuthMiddleware(app);
 
@@ -103,50 +79,11 @@ app.use((req, res, next) => {
     next();
 });
 
+
 /*
     Other routes
 */
-
-
-
-app.get("/api/products", async (req, res) => {
-    const products = await getProducts(req.query.shop);
-    res.status(200).send(products);
-});
-
-// app.get("api/products-count", verifyRequest(app), async (req, res) => {
-app.get("/api/products-count", async (req, res) => {
-    const countData = await productsCount(req.query.shop);
-    res.status(200).send(countData);
-});
-
-
-
-async function getProducts(shop) {
-    try {
-        const session = shops[shop];
-        log('products session', session);
-        // Create a new client for the specified shop.
-        const client = new Shopify.Clients.Rest(session.shop, session.accessToken);
-        const products = await client.get({
-            path: 'products',
-        });
-        log(products);
-        return products
-    } catch (error) {
-        log('products error', error);
-    }
-};
-
-async function productsCount(shop) {
-    const session = shops[shop];
-    log(Shopify.Context.API_VERSION);
-    const path = `@shopify/shopify-api/dist/rest-resources/${Shopify.Context.API_VERSION}/index.js`
-    const { Product } = await import(path);
-    const countData = await Product.count({ session });
-    return countData
-}
-
+router(app);
 
 
 // app.post("/graphql", verifyRequest(app), async (req, res) => {
@@ -158,6 +95,7 @@ app.post("/graphql", async (req, res) => {
         res.status(500).send(error.message);
     }
 });
+
 
 app.use(compression());
 app.use(serveStatic(resolve("app-front/dist")));

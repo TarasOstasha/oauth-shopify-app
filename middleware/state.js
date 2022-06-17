@@ -17,4 +17,13 @@ const context = {
 
 const shops = {};
 
-export { context, shops }
+/* 
+    dev vars
+*/
+let products = [];
+let countData = 0;
+
+export { 
+    context, shops, 
+    products, countData
+}
