@@ -22,8 +22,8 @@ export const useAppStore = defineStore({
     async fetchSession() {
       const url = `${api()}/session-info?shop=${shop}`;
       const answer = await axios.get(url);
-      log(answer);
-      const session = answer.data.sessionSave;
+      log('app state answer', answer);
+      const session = answer.data.result.result.sessionSave;
       logT(session);
       if (session) this.session = session;
     },

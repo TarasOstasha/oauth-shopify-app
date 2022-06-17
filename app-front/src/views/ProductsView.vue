@@ -2,6 +2,8 @@
   <main>
 
     <a class="btn btn-primary" role="button" @click="storeProduct.fetchProducts">Get Products</a>
+    <a class="btn btn-primary" role="button" @click="storeProduct.fetchPreparedProducts">Get Prepared Products</a>
+
 
     <div v-for="product in storeProduct.products" :key="product.id">
       <div class="card" style="width: 18rem; margin-top: 1rem; padding-top: 1rem;">
