@@ -16,6 +16,8 @@ export default function applyAuthMiddleware(app) {
 
   log('context: ', context);
   Shopify.Context.initialize(context);
+  app.use(cookieParser(Shopify.Context.API_SECRET_KEY));
+
 
   app.get("/", (req, res) => {
     const isShop = typeof shops[req.query.shop] !== 'undefined';

@@ -31,7 +31,7 @@ import { shops, context, state } from "./middleware/state.js";
 
 const app = express();
 app.use(express.json());
-app.use(cookieParser(Shopify.Context.API_SECRET_KEY));
+
 routerDev(app); // Dev routes
 applyAuthMiddleware(app); // Auth
 router(app); // Other routes
