@@ -1,5 +1,4 @@
 const log = console.log;
-import { shops } from "./state.js";
 import { Shopify } from "@shopify/shopify-api";
 import {
     shops,
