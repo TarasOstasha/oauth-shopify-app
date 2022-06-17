@@ -27,23 +27,14 @@ const log = console.log;
 
 const port = 3000;
 
-
 import { shops, context, state } from "./middleware/state.js";
 
-
-log('context: ', context);
-Shopify.Context.initialize(context);
-
 const app = express();
-
 app.use(express.json());
 app.use(cookieParser(Shopify.Context.API_SECRET_KEY));
-routerDev(app);
-applyAuthMiddleware(app);
-/*
-    Other routes
-*/
-router(app);
+routerDev(app); // Dev routes
+applyAuthMiddleware(app); // Auth
+router(app); // Other routes
 
 
 // app.post("/graphql", verifyRequest(app), async (req, res) => {
@@ -59,7 +50,6 @@ app.post("/graphql", async (req, res) => {
 
 app.use(compression());
 app.use(serveStatic(resolve("app-front/dist")));
-
 app.use("/*", (req, res, next) => {
     // Client-side routing will pick up on the correct route to render, 
     // so we always render the index here
@@ -68,6 +58,7 @@ app.use("/*", (req, res, next) => {
         .set("Content-Type", "text/html")
         .send(fs.readFileSync(`${process.cwd()}/app-front/dist/index.html`));
 });
+
 
 app.listen(process.env.PORT || port, () => {
     log(`Server running at ${port}`);

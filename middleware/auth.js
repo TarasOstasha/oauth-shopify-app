@@ -1,7 +1,7 @@
 import { Shopify } from "@shopify/shopify-api";
 import topLevelAuthRedirect from "../helpers/top-level-auth-redirect.js";
 
-import { shops } from "./state.js";
+import { shops, context, state } from "./state.js";
 
 const log = console.log;
 
@@ -12,6 +12,10 @@ export default function applyAuthMiddleware(app) {
   app.set("top-level-oauth-cookie", TOP_LEVEL_OAUTH_COOKIE);
   app.set("active-shopify-shops", shops);
   // app.set("use-online-tokens", USE_ONLINE_TOKENS);
+
+
+  log('context: ', context);
+  Shopify.Context.initialize(context);
 
   app.get("/", (req, res) => {
     const isShop = typeof shops[req.query.shop] !== 'undefined';
