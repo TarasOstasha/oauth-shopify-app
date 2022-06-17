@@ -1,5 +1,5 @@
 import { Shopify } from "@shopify/shopify-api";
-import verifyRequest from "./middleware/verify-request.js";
+import verifyRequest from "./verify-request.js";
 import {
     shops,
     products, countData
