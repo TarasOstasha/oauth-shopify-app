@@ -31,7 +31,7 @@ async function productsCount(shop) {
 }
 
 async function prepareData(shop) {
-    products = await getProducts(shop);
+    products.push( await getProducts(shop));
     countData = await productsCount(shop);
 };
 
