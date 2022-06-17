@@ -31,8 +31,8 @@ async function productsCount(shop) {
 }
 
 async function prepareData(shop) {
-    const products = await getProducts(shop)
-    products.push(...products);
+    const p = await getProducts(shop)
+    products.push(...p);
     // countData = await productsCount(shop);
 };
 
