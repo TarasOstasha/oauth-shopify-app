@@ -9,7 +9,7 @@
 import express from 'express';
 import { Shopify } from '@shopify/shopify-api';
 import applyAuthMiddleware from "./middleware/auth.js";
-import router from "./middleware/router.js";
+import router from "./routes/index.js";
 import routerDev from "./middleware/router-dev.js";
 import verifyRequest from "./middleware/verify-request.js";
 const fs = await import("fs");
@@ -19,7 +19,6 @@ import { shops, context, state } from "./middleware/state.js";
 
 const app = express();
 app.use(express.json());
-
 routerDev(app); // Dev routes
 applyAuthMiddleware(app); // Auth
 router(app); // Other routes
@@ -42,9 +41,9 @@ import { resolve } from "path";
 
 app.use(compression());
 app.use(serveStatic(resolve("app-front/dist")));
+// Client-side routing will pick up on the correct route to render, 
+// so we always render the index here
 app.use("/*", (req, res, next) => {
-    // Client-side routing will pick up on the correct route to render, 
-    // so we always render the index here
     res
         .status(200)
         .set("Content-Type", "text/html")
