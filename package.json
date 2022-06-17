@@ -18,7 +18,12 @@
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "forever": "^4.0.3",
+    "high-level": "^1.0.2",
+    "moment": "^2.29.3",
+    "mongoose": "^6.3.9",
+    "nodemailer": "^6.7.5",
     "nodemon": "^2.0.16",
-    "serve-static": "^1.15.0"
+    "serve-static": "^1.15.0",
+    "sha1": "^1.1.1"
   }
 }

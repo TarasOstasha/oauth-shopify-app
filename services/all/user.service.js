@@ -1,4 +1,4 @@
-import { log, randomString} from '../../../../high-level/index.js';
+import { log, randomString} from 'high-level';
 import { User } from '../../models/index.js';
 import mail from './mail.service.js';
 import crypto from './crypto.service.js';

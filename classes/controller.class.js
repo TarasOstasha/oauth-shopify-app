@@ -1,4 +1,4 @@
-import { log, } from '../../../high-level/index.js';
+import { log } from 'high-level';
 
 class DTO {
     constructor() { }

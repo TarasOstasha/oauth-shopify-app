@@ -1,5 +1,4 @@
-const level = '../../';
-import { log, } from '../../../../high-level/index.js';
+import { log } from 'high-level';
 import { rand_str_long, pro, lex, } from '../../my_modules/staff.js';
 import { User } from '../../models/index.js';
 import mail from './mail.service.js';

@@ -9,8 +9,8 @@
 import express from 'express';
 import { Shopify } from '@shopify/shopify-api';
 import applyAuthMiddleware from "./middleware/auth.js";
+import routerDev from "./routes/router-dev.js";
 import router from "./routes/index.js";
-import routerDev from "./middleware/router-dev.js";
 import verifyRequest from "./middleware/verify-request.js";
 const fs = await import("fs");
 const log = console.log;
