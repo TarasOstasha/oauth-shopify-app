@@ -1,9 +1,6 @@
 const log = console.log;
 import { Shopify } from "@shopify/shopify-api";
-import {
-    shops,
-    state,
-} from "../middleware/state.js";
+import { shops, state, } from "../middleware/state.js";
 
 async function getProducts(shop) {
     try {

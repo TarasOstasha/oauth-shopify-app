@@ -17,9 +17,6 @@ const context = {
 
 const shops = {};
 
-/* 
-    dev vars
-*/
 const state = {};
 
 export { 

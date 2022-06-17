@@ -1,9 +1,6 @@
-import {
-    shops,
-    state,  
-} from "./state.js";
+import { shops, state, } from "./state.js";
 const log = console.log;
-import {  prepareData, } from '../core/controllers.js';
+import { prepareData, } from '../core/controllers.js';
 
 
 export default function router(app) {

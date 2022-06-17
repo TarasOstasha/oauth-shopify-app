@@ -42,9 +42,13 @@ app.set("active-shopify-shops", shops);
 // app.set("use-online-tokens", USE_ONLINE_TOKENS);
 
 
+app.use(express.json());
 app.use(cookieParser(Shopify.Context.API_SECRET_KEY));
 routerDev(app);
 applyAuthMiddleware(app);
+
+
+
 
 
 Shopify.Webhooks.Registry.addHandler("APP_UNINSTALLED", {
@@ -64,7 +68,6 @@ app.post("/webhooks", async (req, res) => {
     }
 });
 
-app.use(express.json());
 
 app.use((req, res, next) => {
     const shop = req.query.shop;
@@ -78,6 +81,11 @@ app.use((req, res, next) => {
     };
     next();
 });
+
+
+
+
+
 
 
 /*
@@ -101,7 +109,8 @@ app.use(compression());
 app.use(serveStatic(resolve("app-front/dist")));
 
 app.use("/*", (req, res, next) => {
-    // Client-side routing will pick up on the correct route to render, so we always render the index here
+    // Client-side routing will pick up on the correct route to render, 
+    // so we always render the index here
     res
         .status(200)
         .set("Content-Type", "text/html")
