@@ -6,25 +6,15 @@
                     ██████╔╝███████╗░░╚██╔╝░░░░░░░░██║░░██║██║░░██║░░░██║░░░
                     ╚═════╝░╚══════╝░░░╚═╝░░░░░░░░░╚═╝░░╚═╝╚═╝░░╚═╝░░░╚═╝░░░
 */
-
 import express from 'express';
 import { Shopify } from '@shopify/shopify-api';
-
-import compression from 'compression';
-import serveStatic from 'serve-static';
-import { resolve } from "path";
-
 import applyAuthMiddleware from "./middleware/auth.js";
 import router from "./middleware/router.js";
 import routerDev from "./middleware/router-dev.js";
-
 import verifyRequest from "./middleware/verify-request.js";
-
 const fs = await import("fs");
 const log = console.log;
-
 const port = 3000;
-
 import { shops, context, state } from "./middleware/state.js";
 
 const app = express();
@@ -46,6 +36,10 @@ app.post("/graphql", async (req, res) => {
 });
 
 
+import compression from 'compression';
+import serveStatic from 'serve-static';
+import { resolve } from "path";
+
 app.use(compression());
 app.use(serveStatic(resolve("app-front/dist")));
 app.use("/*", (req, res, next) => {
@@ -58,6 +52,4 @@ app.use("/*", (req, res, next) => {
 });
 
 
-app.listen(process.env.PORT || port, () => {
-    log(`Server running at ${port}`);
-});
+app.listen(process.env.PORT || port, () => { log(`Server running at ${port}`) });
