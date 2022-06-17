@@ -19,14 +19,14 @@ export const useProductStore = defineStore({
       const url = `${api()}/products-prepared?shop=${shop}`;
       const answer = await axios.get(url);
       log('products state answer', answer);
-      this.products = answer.data.result.result.products;
+      this.products = answer.data.result.result.products.body.products;
       log(this.products);
     },
     async fetchProducts() {
       const url = `${api()}/api/products?shop=${shop}`;
       const answer = await axios.get(url);
       log('products state answer', answer);
-      this.products = answer.data.result.result.products;
+      this.products = answer.data.result.result.products.body.products;
       log(this.products);
     },
 
