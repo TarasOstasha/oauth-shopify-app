@@ -20,9 +20,9 @@ const shops = {};
 /* 
     dev vars
 */
-const products = [];
+const state = {};
 
 export { 
     context, shops, 
-    products, 
+    state, 
 }

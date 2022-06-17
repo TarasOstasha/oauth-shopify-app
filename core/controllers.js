@@ -2,7 +2,7 @@ const log = console.log;
 import { Shopify } from "@shopify/shopify-api";
 import {
     shops,
-    products,
+    state,
 } from "../middleware/state.js";
 
 async function getProducts(shop) {
@@ -31,8 +31,7 @@ async function productsCount(shop) {
 }
 
 async function prepareData(shop) {
-    const p = await getProducts(shop)
-    products.push(...p);
+    state.products = await getProducts(shop);
     // countData = await productsCount(shop);
 };
 

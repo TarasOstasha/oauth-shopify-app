@@ -29,7 +29,7 @@ const port = 3000;
 const USE_ONLINE_TOKENS = true;
 const TOP_LEVEL_OAUTH_COOKIE = "shopify_top_level_oauth";
 
-import { shops, context } from "./middleware/state.js";
+import { shops, context, state } from "./middleware/state.js";
 
 
 log('context: ', context);

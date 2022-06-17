@@ -1,6 +1,6 @@
 import {
     shops,
-    products,  
+    state,  
 } from "./state.js";
 const log = console.log;
 import {  prepareData, } from '../core/controllers.js';
@@ -24,7 +24,7 @@ export default function router(app) {
 
     app.get("/api/products-prepared", async (req, res) => {
         await prepareData(req.query.shop);
-        res.status(200).send(products);
+        res.status(200).send(state.products);
     });
 
 }
