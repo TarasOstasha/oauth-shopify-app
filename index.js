@@ -41,11 +41,11 @@ app.set("top-level-oauth-cookie", TOP_LEVEL_OAUTH_COOKIE);
 app.set("active-shopify-shops", shops);
 // app.set("use-online-tokens", USE_ONLINE_TOKENS);
 
+
 app.use(cookieParser(Shopify.Context.API_SECRET_KEY));
-
 routerDev(app);
-
 applyAuthMiddleware(app);
+
 
 Shopify.Webhooks.Registry.addHandler("APP_UNINSTALLED", {
     path: "/webhooks",
