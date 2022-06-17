@@ -9,7 +9,7 @@ import { shops, state, } from "../middleware/state.js";
 export default function router(app) {
     [
       { path: '/session-info', method: 'get', controller: SessionInfoController },
-      { path: '/api/products-prepared', method: 'get', controller: PreparedProductsController }
+      { path: '/products-prepared', method: 'get', controller: PreparedProductsController }
     ].forEach(
       // it is like - app.post('/register', mediator.bind(new RegisterController()));
       item => app[item.method](item.path, mediator.bind(new item.controller()))

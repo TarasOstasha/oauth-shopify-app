@@ -16,7 +16,7 @@ export const useProductStore = defineStore({
   },
   actions: {
     async fetchProducts() {
-      const url = `${api()}/api/products-prepared?shop=${shop}`;
+      const url = `${api()}/products-prepared?shop=${shop}`;
       const answer = await axios.get(url);
       log(answer);
       this.products = answer.data.body.products;

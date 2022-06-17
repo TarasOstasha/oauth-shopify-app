@@ -7,7 +7,7 @@ import user from './user.service.js';
 import { shops, state, } from "../../middleware/state.js";
 
 
-class AuthService {
+class DevService {
     constructor() { }
 
     async sessionInfo(shop) {
@@ -21,10 +21,15 @@ class AuthService {
         }
     }
 
-    async preparedProducts(shop){
-        
+    async preparedProducts(){
+        return {
+            ok: true,
+            result: {
+                products: state.preparedProducts
+            }
+        }
     }
 
 };
 
-export default new AuthService();
+export default new DevService();
