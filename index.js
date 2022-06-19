@@ -36,7 +36,7 @@ app.post("/graphql", async (req, res) => {
 
 app.get("/gql", async (req, res) => {
     try {
-        const shop = this.req.query.shop;
+        const shop = req.query.shop;
         const response = await getGQL(shop, 'query')
         res.status(200).send(response);
     } catch (error) {
