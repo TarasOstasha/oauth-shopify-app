@@ -34,6 +34,44 @@ app.post("/graphql", async (req, res) => {
     }
 });
 
+app.get("/gql", async (req, res) => {
+    try {
+        const shop = this.req.query.shop;
+        const response = await getGQL(shop, 'query')
+        res.status(200).send(response);
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+
+async function getGQL(shop, query) {
+    const session = shops[shop];
+    log('products session GQL', session);
+    // Create a new client for the specified shop.
+    const client = new Shopify.Clients.Graphql(session.shop, session.accessToken);
+    const products = await client.query({
+        data: `{
+            products (first: 10) {
+              edges {
+                node {
+                  id
+                  title
+                  descriptionHtml
+                }
+              }
+            }
+          }`,
+    });
+    log(products);
+    state.preparedProducts = products; // !!!!!!!!!!!
+    return {
+        ok: true,
+        result: {
+            products
+        }
+    }
+}
+
 
 import compression from 'compression';
 import serveStatic from 'serve-static';

@@ -10,6 +10,34 @@ import { Shopify } from "@shopify/shopify-api";
 class ProductService {
     constructor() { }
 
+    // async getGQL(shop, query) {
+    //     const session = shops[shop];
+    //     log('products session GQL', session);
+    //     // Create a new client for the specified shop.
+    //     const client = new Shopify.Clients.Graphql(session.shop, session.accessToken);
+    //     const products = await client.query({
+    //         data: `{
+    //             products (first: 10) {
+    //               edges {
+    //                 node {
+    //                   id
+    //                   title
+    //                   descriptionHtml
+    //                 }
+    //               }
+    //             }
+    //           }`,
+    //       });
+    //     log(products);
+    //     state.preparedProducts = products; // !!!!!!!!!!!
+    //     return {
+    //         ok: true,
+    //         result: {
+    //             products
+    //         }
+    //     }
+    // }
+
     async get(shop) {
         const session = shops[shop];
         log('products session', session);
