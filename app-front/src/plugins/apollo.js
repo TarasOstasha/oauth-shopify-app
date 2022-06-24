@@ -29,7 +29,7 @@ const authLink = setContext((_, { headers }) => {
     return {
         headers: {
             ...headers,
-            authorization: localStorage.getItem("token"),
+            authorization: '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', //localStorage.getItem("token"),
         },
     };
 });
