@@ -2,12 +2,11 @@
 <script setup lang="ts">
 let myMsg = "hello from home component";
 import Sidebar from "@/components/sidebar.vue";
-import Header from '@/components/header.vue';
+import Header from "@/components/header.vue";
 import Vue from "vue";
-import { httpOptions, log, api } from '@/utils';
+import { httpOptions, log, api } from "@/utils";
 import { shop } from "@/config";
-import axios from 'axios';
-
+import axios from "axios";
 </script>
 
 <template>
@@ -57,9 +56,8 @@ import axios from 'axios';
                 <hr />
                 <ul class="list-group">
                   <li class="list-group-item" v-for="item in resultQuery" :key="item.id">
-                    <input type="radio" name="aGroup" :id="item.name">
+                    <input type="radio" name="aGroup" :id="item.name" />
                     <label :for="item.name">{{ item.name }}</label>
-                    
                   </li>
                 </ul>
               </div>
@@ -77,14 +75,11 @@ import axios from 'axios';
 </template>
 
 <script lang="ts">
-
-
-
 export default {
   data() {
     return {
       searchQuery: null,
-      test: [
+      resources: [
         { id: 1, name: "product1" },
         { id: 2, name: "product2" },
         { id: 3, name: "product3" },
@@ -94,30 +89,35 @@ export default {
         { id: 7, name: "product7" },
         { id: 8, name: "product8" },
       ],
-      resources: this.getProducts()
+      realData: this.getProducts(),
     };
   },
   computed: {
-     resultQuery() {
-         if(this.searchQuery) {
-             return this.resources.filter(item => {
-                 return this.searchQuery
-                    .toLowerCase()
-                    .split(" ")
-                    .every(v => item.name.toLowerCase().includes(v));
-             });
-         } else {
-             return this.resources;
-         }
-     } 
+    resultQuery() {
+      if (this.searchQuery) {
+        return this.resources.filter((item) => {
+          return this.searchQuery
+            .toLowerCase()
+            .split(" ")
+            .every((v) => item.name.toLowerCase().includes(v));
+        });
+      } else {
+        return this.resources;
+      }
+    },
   },
   methods: {
     async getProducts() {
-      const url = `${api()}/api/products?shop=${shop}`;
-      const answer = await axios.get(url);
-      log(answer);
+      try {
+        const url = `${api()}/api/products?shop=${shop}`;
+        const answer = await axios.get(url);
+        return answer
+        log(answer);
+      } catch (error) {
+        console.error(error);
+      }
     },
-  }
+  },
 };
 </script>
 
@@ -132,18 +132,18 @@ img {
   padding: 0.5em;
 }
 .list-group-item {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
 }
 .list-group-item:hover {
-    background-color: #050709;
+  background-color: #050709;
 }
 .list-group-item input {
-    margin-right: 1em;
+  margin-right: 1em;
 }
 .list-group-item label {
-    width: 100%;
-    cursor: pointer;
+  width: 100%;
+  cursor: pointer;
 }
 </style>

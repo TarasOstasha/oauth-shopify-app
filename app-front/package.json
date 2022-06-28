@@ -13,9 +13,10 @@
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
   },
   "dependencies": {
-    "bootstrap-icons": "^1.8.3",
+    "@apollo/client": "^3.6.9",
     "@vue/apollo-composable": "^4.0.0-alpha.17",
     "apollo-boost": "^0.4.9",
+    "bootstrap-icons": "^1.8.3",
     "graphql": "^15.8.0",
     "pinia": "^2.0.14",
     "vue": "^3.2.36",
