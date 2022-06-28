@@ -54,6 +54,7 @@ import axios from "axios";
                   />
                 </div>
                 <hr />
+                <pre>{{ answer }}</pre>
                 <ul class="list-group">
                   <li class="list-group-item" v-for="item in resultQuery" :key="item.id">
                     <input type="radio" name="aGroup" :id="item.name" />
@@ -89,7 +90,7 @@ export default {
         { id: 7, name: "product7" },
         { id: 8, name: "product8" },
       ],
-      realData: this.getProducts(),
+      answer: [] // here should be real data from server
     };
   },
   computed: {
@@ -110,9 +111,8 @@ export default {
     async getProducts() {
       try {
         const url = `${api()}/api/products?shop=${shop}`;
-        const answer = await axios.get(url);
-        return answer
-        log(answer);
+        this.answer = await axios.get(url);
+        log(this.answer);
       } catch (error) {
         console.error(error);
       }
