@@ -25,7 +25,11 @@ export const useAppStore = defineStore({
       log('app state answer', answer);
       const session = answer.data.result.result.sessionSave;
       logT(session);
-      if (session) this.session = session;
+      if (session) {
+        localStorage.setItem('token', `Bearer ${session.accessToken}`)
+
+        this.session = session;
+      };
     },
     // async refresh() {
     //   const url = `${api()}/api/products-prepared?shop=${this.shop}`;

@@ -36,6 +36,7 @@ const storeProduct = useProductStore();
 
 onMounted(async () => {
   await storeProduct.fetchProducts();
+  await storeProduct.fetchProducts2();
 });
 
 </script>
