@@ -90,7 +90,7 @@ export default {
         { id: 7, name: "product7" },
         { id: 8, name: "product8" },
       ],
-      answer: [] // here should be real data from server
+      products: [] // here should be real data from server
     };
   },
   computed: {
@@ -111,8 +111,8 @@ export default {
     async getProducts() {
       try {
         const url = `${api()}/api/products?shop=${shop}`;
-        this.answer = await axios.get(url);
-        log(this.answer);
+        this.products = await axios.get(url);
+        log(this.products);
       } catch (error) {
         console.error(error);
       }
