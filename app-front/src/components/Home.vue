@@ -7,6 +7,8 @@ import Vue from "vue";
 import { httpOptions, log, api } from "@/utils";
 import { shop } from "@/config";
 import axios from "axios";
+import { useProductStore } from '@/stores/products';
+const storeProduct = useProductStore();
 </script>
 
 <template>
@@ -78,6 +80,7 @@ import axios from "axios";
 <script lang="ts">
 export default {
   data() {
+    console.log(this.product);
     return {
       searchQuery: null,
       resources: [
@@ -118,6 +121,10 @@ export default {
       }
     },
   },
+  async created() {
+    await storeProduct.fetchProducts();
+    console.log(this.storeProduct.products)
+  }
 };
 </script>
 
